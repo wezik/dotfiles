@@ -1,8 +1,10 @@
 #!/bin/bash
 
-pacman -Sy wezterm zig neovim brave-browser nodejs --noconfirm
+pacman -Syu wezterm zig neovim brave-browser npm nvm --noconfirm
 
-git clone -b refactor/0.2 https://github.com/wezik/nvim-config.git "$HOME/.dotfiles/nvim"
+USER_HOME=$(getent passwrd $USER | cut -d: -f6)
+
+git clone -b "refactor/0.2" "https://github.com/wezik/nvim-config.git" "$USER_HOME/.dotfiles/nvim"
 
 echo "Press Enter to continue..."
 read -r
