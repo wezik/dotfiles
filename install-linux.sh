@@ -1,6 +1,6 @@
 #!/bin/bash
 
-pacman -Syu wezterm zig neovim brave-browser npm nvm --noconfirm
+pacman -Sy wezterm zig neovim brave-browser npm nvm --noconfirm
 
 USER_HOME=$(getent passwrd $USER | cut -d: -f6)
 
