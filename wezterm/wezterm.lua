@@ -3,15 +3,31 @@ local wezterm = require 'wezterm'
 local config = wezterm.config_builder()
 
 config.font = wezterm.font 'JetBrains Mono'
-config.color_scheme = 'Batman'
+config.color_scheme = 'Hacktober'
 config.use_fancy_tab_bar = false
+config.hide_tab_bar_if_only_one_tab = true
 
 local is_windows = package.config:sub(1,1) == '\\'
 local bg_path
+local wezterm_home
+
+if is_windows then
+  wezterm_home = os.getenv('XDG_CONFIG_HOME')
+  bg_path = wezterm_home .. '\\wezterm\\wezterm-background.png'
+  bg_path = bg_path:gsub("\\", "/")
+else
+  wezterm_home = os.getenv('HOME')
+  bg_path = wezterm_home .. '/.config/wezterm/wezterm-background.png'
+end
 
 local act = wezterm.action
 
 config.keys = {
+  {
+    key = 't',
+    mods = 'CTRL|SHIFT|ALT',
+    action = act.ShowTabNavigator,
+  },
   {
     key = 'R',
     mods = 'CTRL|SHIFT',
@@ -27,26 +43,29 @@ config.keys = {
       end),
     },
   },
-  -- other keys
+  {
+    key = ',',
+    mods = 'CTRL',
+    action = act.SpawnCommandInNewTab {
+      cwd = wezterm_home,
+      set_environment_variables = {
+        TERM = 'screen-256color',
+      },
+      args = {
+        'nvim',
+        '/wezterm/wezterm.lua',
+      },
+    },
+  },
 }
 
-if is_windows then
-        local wezterm_home = os.getenv('XDG_CONFIG_HOME')
-        bg_path = wezterm_home .. '\\wezterm\\wezterm-background.png'
-        bg_path = bg_path:gsub("\\", "/")
-else
-        local wezterm_home = os.getenv('HOME')
-        bg_path = wezterm_home .. '/.config/wezterm/wezterm-background.png'
-end
-
-
 config.background = {
-        {
-                source = {
-                        File = bg_path,
-                },
-                hsb = { brightness = 0.5 }
-        }
+  {
+    source = {
+      File = bg_path,
+    },
+    hsb = { brightness = 0.5 }
+  }
 }
 
 return config
