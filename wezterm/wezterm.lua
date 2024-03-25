@@ -2,7 +2,21 @@ local wezterm = require 'wezterm'
 
 local config = wezterm.config_builder()
 
-config.font = wezterm.font 'JetBrains Mono'
+config.font = wezterm.font_with_fallback {
+  {
+    family = 'JetBrainsMono Nerd Font',
+    weight = 'Regular',
+  }
+  -- 'CommitMono Nerd Font',
+  -- 'JetBrainsMono Nerd Font',
+  -- 'JetbrainsMono Nerd Font',
+  -- 'CommitMono',
+  -- 'JetBrains Mono',
+  -- 'Jetbrains Mono'
+}
+config.font_size = 12.0
+config.line_height = 1
+config.cell_width = 1
 config.color_scheme = 'Hacktober'
 config.use_fancy_tab_bar = false
 config.hide_tab_bar_if_only_one_tab = true
