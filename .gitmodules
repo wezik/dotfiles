@@ -1,0 +1,4 @@
+[submodule "nvim"]
+	path = nvim
+	url = https://www.github.com/wezik/nvim-config
+	branch = refactor/0.2
