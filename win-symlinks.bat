@@ -1,12 +1,5 @@
 @echo off
 
-echo Creating links...
+echo Running PowerShell script to create symbolic links...
 
-mklink /D "%USERPROFILE%\nvim" "%USERPROFILE%\.dotfiles\nvim"
-setx XDG_CONFIG_HOME "%USERPROFILE%"
-mklink /D "%USERPROFILE%\wezterm" "%USERPROFILE%\.dotfiles\wezterm"
-mklink "%USERPROFILE%\.gitconfig" "%USERPROFILE%\.dotfiles\.gitconfig"
-mklink "%USERPROFILE%\.config\starship.toml" "%USERPROFILE%\.dotfiles\.config\starship.toml"
-
-echo Links created
-pause
+powershell.exe -ExecutionPolicy Bypass -File "%USERPROFILE%\.dotfiles\win-symlinks.ps1"
