@@ -17,9 +17,10 @@ config.font = wezterm.font_with_fallback {
 config.font_size = 12.0
 config.line_height = 1
 config.cell_width = 1
-config.color_scheme = 'Hacktober'
+config.color_scheme = 'Guezwhoz'
 config.use_fancy_tab_bar = false
 config.hide_tab_bar_if_only_one_tab = true
+config.tab_bar_at_bottom = true
 
 local is_windows = package.config:sub(1,1) == '\\'
 local bg_path
@@ -29,12 +30,33 @@ if is_windows then
   wezterm_home = os.getenv('XDG_CONFIG_HOME')
   bg_path = wezterm_home .. '\\wezterm\\wezterm-background.png'
   bg_path = bg_path:gsub("\\", "/")
+  config.default_prog = { "powershell.exe", "-NoExit", "-NoLogo" }
 else
   wezterm_home = os.getenv('HOME')
   bg_path = wezterm_home .. '/.config/wezterm/wezterm-background.png'
 end
 
 local act = wezterm.action
+
+local backgroundEnabled = false
+local stored_bg = config.background
+
+local function toggleBackground()
+  if backgroundEnabled then
+    config.background = stored_bg
+    backgroundEnabled = false
+  else
+    config.background = {
+      {
+        source = {
+          File = bg_path,
+        },
+        opacity = 0.5
+      }
+    }
+    backgroundEnabled = true
+  end
+end
 
 config.keys = {
   {
@@ -58,6 +80,14 @@ config.keys = {
     },
   },
   {
+    key = 'G',
+    mods = 'CTRL|SHIFT|ALT',
+    action = wezterm.action_callback(function(_, _)
+      wezterm.log_info("Toggling background")
+      toggleBackground()
+    end),
+  },
+  {
     key = ',',
     mods = 'CTRL',
     action = act.SpawnCommandInNewTab {
@@ -73,13 +103,5 @@ config.keys = {
   },
 }
 
-config.background = {
-  {
-    source = {
-      File = bg_path,
-    },
-    hsb = { brightness = 0.5 }
-  }
-}
 
 return config
