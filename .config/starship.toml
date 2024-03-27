@@ -16,7 +16,7 @@
 
 add_newline = false
 command_timeout = 1000
-format = """$os$username$hostname$kubernetes$directory$git_branch$git_status """
+format = """$os$username$hostname$kubernetes$docker_context$directory$git_branch$git_status """
 
 # Drop ugly default prompt characters
 [character]
@@ -108,7 +108,9 @@ disabled = false
 disabled = true
 
 [docker_context]
-disabled = true
+format = 'via [🐳 $context]($style) '
+style = 'bold lightblue'
+disabled = false
 
 [helm]
 disabled = true
