@@ -31,6 +31,7 @@ if is_windows then
   bg_path = wezterm_home .. '\\wezterm\\wezterm-background.png'
   bg_path = bg_path:gsub("\\", "/")
   config.default_prog = { "powershell.exe", "-NoExit", "-NoLogo" }
+  -- config.default_prog = { "cygwin" }
 else
   wezterm_home = os.getenv('HOME')
   bg_path = wezterm_home .. '/.config/wezterm/wezterm-background.png'
@@ -58,11 +59,48 @@ local function toggleBackground()
   end
 end
 
+config.leader = { key = 'x', mods = 'CTRL', timeout_milliseconds = 1000 }
+
 config.keys = {
+  {
+    key = 'X',
+    mods = 'CTRL|SHIFT',
+    action = act.SendKey { key = 'x', mods = 'CTRL' },
+  },
   {
     key = 't',
     mods = 'CTRL|SHIFT|ALT',
     action = act.ShowTabNavigator,
+  },
+  {
+    key = 's',
+    mods = 'LEADER|CTRL|SHIFT',
+    action = act.SplitVertical,
+  },
+  {
+    key = 'h',
+    mods = 'LEADER|CTRL|SHIFT',
+    action = act.SplitHorizontal,
+  },
+  {
+    key = 'h',
+    mods = 'LEADER|CTRL',
+    action = act.ActivatePaneDirection "Left",
+  },
+  {
+    key = 'j',
+    mods = 'LEADER|CTRL',
+    action = act.ActivatePaneDirection "Down",
+  },
+  {
+    key = 'k',
+    mods = 'LEADER|CTRL',
+    action = act.ActivatePaneDirection "Up",
+  },
+  {
+    key = 'l',
+    mods = 'LEADER|CTRL',
+    action = act.ActivatePaneDirection "Right",
   },
   {
     key = 'R',
@@ -102,6 +140,5 @@ config.keys = {
     },
   },
 }
-
 
 return config
